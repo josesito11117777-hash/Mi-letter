@@ -1,76 +1,31 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For You</title>
-
-<style>
-body {
-  margin: 0;
-  height: 100vh;
-  background: linear-gradient(180deg, #7b0000, #fff1f1);
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Carta */
-.letter-wrapper {
-  position: relative;
-  width: 420px;
-  z-index: 5;
-}
-
-.letter-wrapper img {
-  width: 100%;
-  display: block;
-}
-
-/* Lluvia */
-.rain {
-  position: fixed;
-  top: -150px;
-  width: 110px;
-  opacity: 0.4;
-  pointer-events: none;
-  z-index: 1;
-  animation-name: fall;
-  animation-timing-function: linear;
-}
-
-@keyframes fall {
-  to {
-    transform: translateY(120vh);
-  }
-}
-</style>
-</head>
-
-<body>
-
-<!-- Carta -->
-<div class="letter-wrapper">
-  <img src="letter.png">
-</div>
-
 <script>
-const total = 18; // cantidad de ositos
+const lanes = [10, 25, 40, 60, 75, 90]; // carriles (izq y der)
+const maxOnScreen = 12;
+let current = 0;
 
-for (let i = 0; i < total; i++) {
+function createRain() {
+  if (current >= maxOnScreen) return;
+
   const img = document.createElement("img");
   img.src = "couple.png";
   img.className = "rain";
 
-  img.style.left = Math.random() * 100 + "vw";
-  img.style.animationDuration = (4 + Math.random() * 3) + "s";
-  img.style.animationDelay = Math.random() * 3 + "s";
+  const lane = lanes[Math.floor(Math.random() * lanes.length)];
+  img.style.left = lane + "vw";
+
   img.style.width = (90 + Math.random() * 40) + "px";
+  img.style.animationDuration = (4 + Math.random() * 2) + "s";
+  img.style.opacity = 0.35;
 
   document.body.appendChild(img);
-}
-</script>
+  current++;
 
-</body>
-</html>
+  img.addEventListener("animationend", () => {
+    img.remove();
+    current--;
+  });
+}
+
+// lluvia constante tipo garúa
+setInterval(createRain, 700);
+</script>
