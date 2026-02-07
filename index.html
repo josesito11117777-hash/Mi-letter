@@ -10,69 +10,67 @@ body {
   margin: 0;
   height: 100vh;
   background: linear-gradient(180deg, #7b0000, #fff1f1);
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  font-family: serif;
 }
 
-/* Carta cerrada */
+/* Carta */
 .letter-wrapper {
   position: relative;
-  width: 380px;
-  animation: breathe 4s ease-in-out infinite;
-  z-index: 2;
+  width: 420px;
+  z-index: 5;
 }
 
-.letter-img {
+.letter-wrapper img {
   width: 100%;
   display: block;
 }
 
-/* Sello rojo */
-.seal {
-  position: absolute;
-  width: 90px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* Animación suave */
-@keyframes breathe {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-/* Osito + conejito cayendo */
-.falling {
-  position: absolute;
+/* Lluvia */
+.rain {
+  position: fixed;
   top: -150px;
-  width: 140px;
-  opacity: 0.65;
-  animation: fall linear infinite;
+  width: 110px;
+  opacity: 0.4;
+  pointer-events: none;
   z-index: 1;
+  animation-name: fall;
+  animation-timing-function: linear;
 }
 
 @keyframes fall {
-  from { transform: translateY(-150px); }
-  to { transform: translateY(120vh); }
+  to {
+    transform: translateY(120vh);
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Ositos -->
-<img src="couple.png" class="falling" style="left:10%; animation-duration:20s;">
-<img src="couple.png" class="falling" style="left:70%; animation-duration:26s;">
-
 <!-- Carta -->
 <div class="letter-wrapper">
-  <img src="letter.png" class="letter-img">
-  <img src="seal.png" class="seal">
+  <img src="letter.png">
 </div>
+
+<script>
+const total = 18; // cantidad de ositos
+
+for (let i = 0; i < total; i++) {
+  const img = document.createElement("img");
+  img.src = "couple.png";
+  img.className = "rain";
+
+  img.style.left = Math.random() * 100 + "vw";
+  img.style.animationDuration = (4 + Math.random() * 3) + "s";
+  img.style.animationDelay = Math.random() * 3 + "s";
+  img.style.width = (90 + Math.random() * 40) + "px";
+
+  document.body.appendChild(img);
+}
+</script>
 
 </body>
 </html>
